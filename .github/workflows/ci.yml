@@ -1,0 +1,24 @@
+name: Beta CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: JavaScript syntax
+        run: |
+          set -e
+          for f in assets/*.js; do node --check "$f"; done
+      - name: Static links and required files
+        run: python3 scripts/smoke_static.py
+      - name: Security header file present
+        run: grep -q "Content-Security-Policy" _headers
