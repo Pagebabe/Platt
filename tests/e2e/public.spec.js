@@ -1,0 +1,11 @@
+const { test, expect } = require('@playwright/test');
+
+test.beforeEach(async ({page})=>{await page.goto('/index.html');const gate=page.locator('#ageYes');if(await gate.count())await gate.click();});
+
+test('discovery, filters and profile navigation work',async({page})=>{await expect(page.getByRole('heading',{name:/Entdecke besondere Profile/i})).toBeVisible();await expect(page.locator('#listingGrid .card').first()).toBeVisible();await page.selectOption('#city','Köln');await expect(page.locator('#listingGrid .card').first()).toBeVisible();const count=await page.locator('#listingGrid .card').count();expect(count).toBeGreaterThan(0);await page.locator('#listingGrid .card').first().click();await expect(page.locator('#profileRoot h1')).toBeVisible();await expect(page.getByRole('button',{name:/Anfrage senden/i}).first()).toBeVisible();});
+
+test('demo inquiry opens privacy-aware form',async({page})=>{await page.locator('#listingGrid .card').first().click();await page.getByRole('button',{name:/Anfrage senden/i}).first().click();await expect(page.locator('#inquiryForm')).toBeVisible();await expect(page.locator('#inquiryForm input[name="privacy"]')).toBeVisible();await expect(page.locator('#inquiryForm textarea[name="message"]')).toBeVisible();});
+
+test('provider registration UI exposes mandatory consents',async({page})=>{await page.goto('/login.html');await page.getByRole('button',{name:/Noch kein Konto/i}).click();await expect(page.getByRole('heading',{name:/registrieren/i})).toBeVisible();await expect(page.locator('#displayName')).toBeVisible();await expect(page.locator('#phone')).toBeVisible();await expect(page.locator('#privacyAccept')).toBeVisible();await expect(page.locator('#adultAccept')).toBeVisible();await expect(page.locator('#rulesAccept')).toBeVisible();});
+
+test('reporting includes moderation appeal',async({page})=>{await page.goto('/meldestelle.html');await expect(page.getByRole('heading',{name:/Meldestelle/i})).toBeVisible();await page.selectOption('#reportReason',{label:'Beschwerde gegen Moderationsentscheidung'});await expect(page.locator('#reportReason')).toHaveValue('Beschwerde gegen Moderationsentscheidung');});
