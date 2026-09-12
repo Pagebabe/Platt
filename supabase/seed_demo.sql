@@ -15,5 +15,20 @@ values
 on conflict(slug) do update set
 name=excluded.name,category=excluded.category,city=excluded.city,district=excluded.district,description=excluded.description,price_from=excluded.price_from,verified=excluded.verified,available_today=excluded.available_today,status=excluded.status,published_at=excluded.published_at,age=excluded.age,languages=excluded.languages,tags=excluded.tags,rating=excluded.rating,review_count=excluded.review_count,response_time_minutes=excluded.response_time_minutes,is_demo=excluded.is_demo;
 
+delete from public.availability where listing_id in (select id from public.listings where is_demo=true);
+insert into public.availability(listing_id,weekday,starts_at,ends_at,is_available)
+select l.id,v.weekday,v.starts_at::time,v.ends_at::time,true
+from public.listings l
+join (values
+('demo-sophia-koeln',0,'16:00','23:00'),('demo-sophia-koeln',1,'16:00','23:00'),('demo-sophia-koeln',2,'16:00','23:00'),('demo-sophia-koeln',3,'16:00','23:00'),('demo-sophia-koeln',4,'16:00','23:00'),('demo-sophia-koeln',5,'18:00','23:30'),
+('demo-mia-koeln',0,'12:00','21:00'),('demo-mia-koeln',1,'12:00','21:00'),('demo-mia-koeln',2,'12:00','21:00'),('demo-mia-koeln',3,'12:00','21:00'),('demo-mia-koeln',4,'12:00','21:00'),('demo-mia-koeln',5,'12:00','20:00'),
+('demo-lina-duesseldorf',1,'18:00','23:00'),('demo-lina-duesseldorf',2,'18:00','23:00'),('demo-lina-duesseldorf',3,'18:00','23:00'),('demo-lina-duesseldorf',4,'18:00','23:00'),
+('demo-nora-koeln',0,'10:00','20:00'),('demo-nora-koeln',1,'10:00','20:00'),('demo-nora-koeln',2,'10:00','20:00'),('demo-nora-koeln',3,'10:00','20:00'),('demo-nora-koeln',4,'10:00','20:00'),('demo-nora-koeln',5,'10:00','20:00'),
+('demo-studio-rhein',0,'10:00','23:00'),('demo-studio-rhein',1,'10:00','23:00'),('demo-studio-rhein',2,'10:00','23:00'),('demo-studio-rhein',3,'10:00','23:00'),('demo-studio-rhein',4,'10:00','23:00'),('demo-studio-rhein',5,'10:00','23:00'),('demo-studio-rhein',6,'12:00','22:00'),
+('demo-lea-bonn',0,'17:00','23:00'),('demo-lea-bonn',1,'17:00','23:00'),('demo-lea-bonn',2,'17:00','23:00'),('demo-lea-bonn',3,'17:00','23:00'),('demo-lea-bonn',4,'17:00','23:00'),('demo-lea-bonn',5,'14:00','23:00'),
+('demo-ava-essen',1,'11:00','19:00'),('demo-ava-essen',2,'11:00','19:00'),('demo-ava-essen',3,'11:00','19:00'),('demo-ava-essen',4,'11:00','19:00'),('demo-ava-essen',5,'11:00','19:00'),
+('demo-luna-duesseldorf',2,'18:00','23:30'),('demo-luna-duesseldorf',3,'18:00','23:30'),('demo-luna-duesseldorf',4,'18:00','23:30'),('demo-luna-duesseldorf',5,'18:00','23:30'),('demo-luna-duesseldorf',6,'18:00','23:00')
+) as v(slug,weekday,starts_at,ends_at) on l.slug=v.slug where l.is_demo=true;
+
 alter table public.listings enable trigger trg_enforce_listing_moderation;
 commit;
