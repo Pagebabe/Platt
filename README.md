@@ -2,22 +2,40 @@
 
 Arbeitsname für eine moderne lokale Profil- und Anzeigenplattform.
 
-## Status
+## Projektwahrheit
 
-- Öffentliche Suche/Listings: fertig
-- Profilseite: fertig
-- Anbieter-Dashboard: Beta-Demo
-- Admin-Moderation: Beta-Demo
-- Supabase-Projekt `Platt`: aktiv auf Free-Plan
-- Öffentliche aktive Listings werden live aus Supabase geladen
-- Kontaktanfragen werden für Live-Listings in `public.inquiries` gespeichert
-- Demo-Daten bleiben als Fallback aktiv, solange keine Live-Listings vorhanden sind
-- GitHub Pages Workflow vorhanden; die einmalige Pages-Aktivierung ist durch die GitHub-App-Berechtigung blockiert
+- Architektur: statische HTML/CSS/JavaScript-Beta mit Supabase.
+- Aktive Hosting-Linie: Netlify, Projekt `platt-beta`.
+- Öffentliche Beta: `https://platt-beta.netlify.app`.
+- Vercel-Konfiguration liegt im Repository, es ist im verbundenen Vercel-Konto derzeit jedoch kein aktives Projekt hinterlegt.
+- GitHub Pages ist nicht die aktive Hosting-Linie.
+- Öffentliche Seiten sind in der Beta mit `noindex,nofollow` gekennzeichnet.
 
-## Sicherheit
+## Funktionsstand
 
-Supabase meldet aktuell drei Tabellen ohne RLS: `listing_media`, `availability`, `reports`.
-Sie werden im öffentlichen Beta-Frontend nicht verwendet. Eine vorbereitete, aber bewusst **nicht ausgeführte** Migration liegt unter `supabase/rls_hardening_pending.sql`.
+- Öffentliche Suche und Listings vorhanden.
+- Profilseiten mit Verfügbarkeit, Bewertungen, Prüfmerkmalen, Merkliste und Kontaktwegen vorhanden.
+- Anbieter-Anmeldung, Dashboard, Profilpflege, Medien, Wochenplan, Verifizierungsantrag und Anfragebearbeitung vorhanden.
+- Admin-Moderation für Profile, Medien, Bewertungen, Verifizierungen und Meldungen vorhanden.
+- Supabase ist die Daten-, Authentifizierungs- und Speicherbasis der Beta.
+- Demo-Daten können weiterhin als Fallback erscheinen, solange keine passenden Live-Listings geladen werden.
+
+## UI/UX-Linie
+
+Die verbindliche Produktoberfläche ist in `docs/UI_UX_MASTER_2026-09-13.md` dokumentiert. Das Redesign liegt als kontrollierte Override-Schicht in `assets/product-ui.css`, damit die bestehende Funktionsarchitektur nicht für rein visuelle Änderungen umgebaut werden muss.
+
+## Launch-Gates
+
+Nicht als kommerziell startbereit behandeln, solange diese Punkte offen sind:
+
+- echte Betreiber- und Pflichtangaben,
+- rechtliche Prüfung der Arbeitsfassungen,
+- produktive Zahlungsabwicklung,
+- gesonderte technische Sicherheitsfreigabe für den jeweiligen Produktivstand.
+
+## Tests
+
+Playwright deckt die wichtigsten öffentlichen Kernwege, Profilnavigation, Anfrageformular, WhatsApp-Link, Registrierungspflichten, ungültige Unterhaltungstoken und Meldestelle ab.
 
 ## Lokal starten
 
@@ -25,4 +43,4 @@ Sie werden im öffentlichen Beta-Frontend nicht verwendet. Eine vorbereitete, ab
 python3 -m http.server 8080
 ```
 
-Dann `http://localhost:8080` öffnen.
+Danach `http://localhost:8080` öffnen.
