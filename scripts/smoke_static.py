@@ -19,12 +19,15 @@ for f in html:
 if missing:
     raise SystemExit('Missing local links/assets: '+repr(missing))
 required=[
-    'index.html','profile.html','anbieter.html','login.html','reset.html','dashboard.html','provider.html','admin.html',
+    'index.html','profile.html','conversation.html','favorites.html','customer.html','provider-inquiry.html','anbieter.html','login.html','reset.html','dashboard.html','provider.html','admin.html',
     'meldestelle.html','impressum.html','datenschutz.html','jugendschutz.html','anbieterregeln.html','nutzungsbedingungen.html','moderation.html',
     'assets/app.js','assets/auth.js','assets/login.js','assets/dashboard.js','assets/provider.js','assets/admin.js','assets/report.js',
-    'assets/media.css','assets/media-public.js','assets/public-availability.js','_headers',
+    'assets/media.css','assets/media-public.js','assets/public-availability.js','assets/profile-resolver.js','assets/conversation.js','assets/provider-inquiry.js','assets/provider-inquiry-lock.js',
+    'assets/customer.js','assets/favorites-public.js','assets/favorites-page.js','assets/reviews-public.js','assets/analytics.js','assets/nearby.js','_headers',
     'supabase/migrations/20260912_005_media_verification_admin.sql','supabase/migrations/20260912_006_registration_consent_gates.sql',
     'supabase/migrations/20260912_007_revoke_trigger_rpc.sql','supabase/migrations/20260912_008_index_new_foreign_keys.sql',
+    'supabase/migrations/20260912_009_product_engagement_features.sql','supabase/migrations/20260912_010_protect_review_moderation.sql',
+    'supabase/migrations/20260913_011_preserve_demo_review_stats.sql','supabase/migrations/20260913_012_customer_consent_records.sql','supabase/migrations/20260913_013_tighten_conversation_and_review_access.sql',
     'playwright.config.js','tests/e2e/public.spec.js'
 ]
 for p in required:
