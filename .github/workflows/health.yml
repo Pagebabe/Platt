@@ -22,7 +22,23 @@ jobs:
             https://platt-beta.netlify.app/ \
             https://platt-beta.netlify.app/profile.html \
             https://platt-beta.netlify.app/login.html \
+            https://platt-beta.netlify.app/customer.html \
+            https://platt-beta.netlify.app/favorites.html \
+            https://platt-beta.netlify.app/conversation.html \
+            https://platt-beta.netlify.app/dashboard.html \
+            https://platt-beta.netlify.app/provider-inquiry.html \
+            https://platt-beta.netlify.app/admin.html \
             https://platt-beta.netlify.app/meldestelle.html; do
+            curl --fail --silent --show-error --location --max-time 20 "$u" >/dev/null
+          done
+      - name: Check critical assets
+        run: |
+          set -euo pipefail
+          for u in \
+            https://platt-beta.netlify.app/assets/app.js \
+            https://platt-beta.netlify.app/assets/profile-resolver.js \
+            https://platt-beta.netlify.app/assets/conversation.js \
+            https://platt-beta.netlify.app/assets/provider-inquiry.js; do
             curl --fail --silent --show-error --location --max-time 20 "$u" >/dev/null
           done
       - name: Check security headers
