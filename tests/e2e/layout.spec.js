@@ -61,3 +61,16 @@ test('profile mobile CTA remains reachable after navigation',async({page,isMobil
   await expect(cta.getByRole('button',{name:/Anfrage senden/i})).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });
+
+test('polished showcase profile remains clean on mobile',async({page,isMobile})=>{
+  test.skip(!isMobile,'mobile project only');
+  await page.goto('/profile.html?id=sophia-koeln');
+  await acceptAgeGate(page);
+  await expect(page.getByRole('heading',{name:'Sophia'})).toBeVisible();
+  await expect(page.locator('.profile-summary-card')).toBeVisible();
+  await expect(page.locator('#profileGallery .profile-thumb')).toHaveCount(4);
+  await expect(page.locator('.profile-detail-grid')).toBeVisible();
+  await expect(page.locator('.offer-list')).toBeVisible();
+  await expect(page.locator('#mobileProfileCta')).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});
